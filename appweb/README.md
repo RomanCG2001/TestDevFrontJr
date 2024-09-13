@@ -2,13 +2,13 @@
 
 ## Herramientas y dependencias usadas
 
-*React JS
+- React JS
 
-*Redux
+- Redux
 
-*Router
+- Router
 
-*Tailwind CSS
+- Tailwind CSS
 
 ## Deploy
 ### Realicé el deploy en Vercel
