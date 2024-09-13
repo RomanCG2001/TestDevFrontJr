@@ -1,4 +1,3 @@
-// src/hooks/useFetchPosts.js
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setPosts } from '../redux/postsSlice';

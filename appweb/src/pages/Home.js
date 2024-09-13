@@ -1,4 +1,3 @@
-// src/pages/Home.js
 import React from 'react';
 import useFetchUsers from '../hooks/useFetchUsers';
 import { useSelector } from 'react-redux';

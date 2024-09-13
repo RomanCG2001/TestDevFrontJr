@@ -1,4 +1,3 @@
-// src/hooks/useFetchTodos.js
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setTodos } from '../redux/todosSlice';

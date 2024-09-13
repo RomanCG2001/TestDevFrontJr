@@ -1,4 +1,3 @@
-// src/hooks/useFetchUsers.js
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUsers } from '../redux/userSlice';
