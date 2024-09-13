@@ -1,36 +1,25 @@
 // src/pages/UserDetail.js
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import useFetchPosts from '../hooks/useFetchPosts';
+import useFetchTodos from '../hooks/useFetchTodos';
 
 const UserDetail = () => {
   const { userId } = useParams();
   const users = useSelector((state) => state.users.list);
+  const posts = useSelector((state) => state.posts.posts);
+  const todos = useSelector((state) => state.todos.todos);
   const user = users.find((user) => user.id === parseInt(userId));
   const [view, setView] = useState('details');
 
-  useEffect(() => {
-    if (user) {
-      const fetchPostsAndTodos = async () => {
-        try {
-          const postsResponse = await fetch(`https://jsonplaceholder.typicode.com/posts?userId=${user.id}`);
-          const todosResponse = await fetch(`https://jsonplaceholder.typicode.com/todos?userId=${user.id}`);
-          const posts = await postsResponse.json();
-          const todos = await todosResponse.json();
-          user.posts = posts;
-          user.todos = todos;
-        } catch (error) {
-          console.error('Error fetching posts or todos:', error);
-        }
-      };
-      fetchPostsAndTodos();
-    }
-  }, [user]);
+  useFetchPosts(userId);
+  useFetchTodos(userId);
 
   if (!user) return <p>Loading...</p>;
 
   const handleViewChange = (viewType) => {
-    setView(viewType);
+    setView((prevView) => (prevView === viewType ? 'details' : viewType));
   };
 
   return (
@@ -44,15 +33,30 @@ const UserDetail = () => {
         <p><strong>Website:</strong> {user.website}</p>
       </div>
       <div>
-        <button onClick={() => handleViewChange('posts')}>Show Posts</button>
-        <button onClick={() => handleViewChange('todos')}>Show Todos</button>
+        <button onClick={() => handleViewChange('posts')}>
+          {view === 'posts' ? 'Hide Posts' : 'Show Posts'}
+        </button>
+        <button onClick={() => handleViewChange('todos')}>
+          {view === 'todos' ? 'Hide Todos' : 'Show Todos'}
+        </button>
       </div>
       {view === 'posts' && (
         <div>
           <h2>Posts</h2>
           <ul>
-            {user.posts && user.posts.map((post) => (
-              <li key={post.id}>{post.title}</li>
+            {posts.map((post) => (
+              <li key={post.id}>
+                <h3>{post.title}</h3>
+                <p>{post.body}</p>
+                <h4>Comments:</h4>
+                <ul>
+                  {post.comments.map((comment) => (
+                    <li key={comment.id}>
+                      <p><strong>{comment.name}:</strong> {comment.body}</p>
+                    </li>
+                  ))}
+                </ul>
+              </li>
             ))}
           </ul>
         </div>
@@ -61,7 +65,7 @@ const UserDetail = () => {
         <div>
           <h2>Todos</h2>
           <ul>
-            {user.todos && user.todos.map((todo) => (
+            {todos.map((todo) => (
               <li key={todo.id}>{todo.title} - {todo.completed ? 'Completed' : 'Pending'}</li>
             ))}
           </ul>
