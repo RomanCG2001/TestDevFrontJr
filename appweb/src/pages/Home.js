@@ -2,6 +2,7 @@
 import React from 'react';
 import useFetchUsers from '../hooks/useFetchUsers';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   useFetchUsers();
@@ -13,7 +14,7 @@ const Home = () => {
       <ul>
         {users.map((user) => (
           <li key={user.id}>
-            {user.name} - {user.email}
+            <Link to={`/user/${user.id}`}>{user.name}</Link>
           </li>
         ))}
       </ul>
@@ -22,4 +23,3 @@ const Home = () => {
 };
 
 export default Home;
-
