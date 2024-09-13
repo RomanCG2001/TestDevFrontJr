@@ -1,4 +1,3 @@
-// src/pages/UserDetail.js
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -34,7 +33,7 @@ const UserDetail = () => {
     fetchTodos();
   }, [dispatch, userId]);
 
-  if (!user) return <p className="text-center text-gray-700">Loading...</p>;
+  if (!user) return <p className="text-center text-gray-700">Cargando...</p>;
 
   const handleViewChange = (viewType) => {
     setView((prevView) => (prevView === viewType ? 'details' : viewType));
@@ -74,38 +73,43 @@ const UserDetail = () => {
   };
 
   return (
+    <div className='bg-zinc-900 min-h-screen justify-center'>
     <div className="p-4 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">User Details</h1>
+      <h1 className="font-bold text-3xl md:text-4xl lg:text-5xl my-10 font-heading text-slate-100">{user.name} </h1>
       <div className="bg-white shadow-md rounded-lg p-4 mb-4">
-        <p><strong>Name:</strong> {user.name}</p>
-        <p><strong>Username:</strong> {user.username}</p>
-        <p><strong>Email:</strong> {user.email}</p>
-        <p><strong>Phone:</strong> {user.phone}</p>
-        <p><strong>Website:</strong> {user.website}</p>
+        <p><strong>Usuario:</strong> {user.username}</p>
+        <p><strong>Correo:</strong> {user.email}</p>
+        <p><strong>Teléfono:</strong> {user.phone}</p>
+        <p><strong>Sitio web:</strong> {user.website}</p>
       </div>
       <div className="mb-4">
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+          className="bg-violet-500 text-white px-4 py-2 rounded mr-2"
           onClick={() => handleViewChange('posts')}
         >
-          {view === 'posts' ? 'Hide Posts' : 'Show Posts'}
+          {view === 'posts' ? 'Esconder publicaciones' : 'Mostrar publicaciones'}
         </button>
         <button
-          className="bg-green-500 text-white px-4 py-2 rounded"
+          className="bg-amber-500 text-white px-4 py-2 rounded"
           onClick={() => handleViewChange('todos')}
         >
-          {view === 'todos' ? 'Hide Todos' : 'Show Todos'}
+          {view === 'todos' ? 'Esconder pendientes' : 'Mostrar pendientes'}
         </button>
       </div>
+
+      <div className='my-3'>
+      <Link to="/" className="text-stone-400 hover:underline">Volver a lista de usuarios</Link>
+      </div>
+      
       {view === 'posts' && (
         <div className="bg-white shadow-md rounded-lg p-4 mb-4">
-          <h2 className="text-xl font-semibold mb-2">Posts</h2>
+          <h2 className="text-xl font-semibold mb-2">Publicaciones</h2>
           <ul>
             {posts.map((post) => (
               <li key={post.id} className="border-b py-2">
                 <h3 className="text-lg font-bold">{post.title}</h3>
                 <p>{post.body}</p>
-                <h4 className="text-md font-semibold mt-2">Comments:</h4>
+                <h4 className="text-md font-semibold mt-2">Comentarios:</h4>
                 <ul>
                   {post.comments.map((comment) => (
                     <li key={comment.id} className="ml-4 border-t pt-2">
@@ -120,29 +124,22 @@ const UserDetail = () => {
       )}
       {view === 'todos' && (
         <div className="bg-white shadow-md rounded-lg p-4 mb-4">
-          <h2 className="text-xl font-semibold mb-2">Todos</h2>
-          <ul>
-            {todos.map((todo) => (
-              <li key={todo.id} className="border-b py-2">
-                {todo.title} - {todo.completed ? 'Completed' : 'Pending'}
-              </li>
-            ))}
-          </ul>
+          <h2 className="text-xl font-semibold mb-2">Pendientes</h2>
           <form onSubmit={handleSubmit} className="mt-4">
             <div className="mb-2">
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title:</label>
+              <label htmlFor="title" className="block text-sm font-medium text-gray-700">Nuevo pendiente:</label>
               <input
                 id="title"
                 name="title"
                 type="text"
                 value={newTodo.title}
                 onChange={handleInputChange}
-                className="border-gray-300 rounded-md shadow-sm w-full p-2"
+                className="border-2 border-zinc-300 rounded-md shadow-sm w-full p-2"
                 required
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="completed" className="block text-sm font-medium text-gray-700">Completed:</label>
+              <label htmlFor="completed" className="text-sm font-medium text-gray-700">Completado:</label>
               <input
                 id="completed"
                 name="completed"
@@ -154,14 +151,22 @@ const UserDetail = () => {
             </div>
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded"
+              className="bg-green-500 text-white px-4 py-2 rounded"
             >
-              Save
+              Guardar
             </button>
           </form>
+          <ul className='my-10'>
+            {todos.map((todo) => (
+              <li key={todo.id} className="border-b py-2">
+                {todo.title} - {todo.completed ? 'Completado' : 'Pendiente'}
+              </li>
+            ))}
+          </ul>
+          
         </div>
       )}
-      <Link to="/" className="text-blue-500 hover:underline">Back to Users List</Link>
+    </div>
     </div>
   );
 };
