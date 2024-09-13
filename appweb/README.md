@@ -2,10 +2,10 @@
 
 ## Herramientas y dependencias usadas
 
-React JS
-Redux
-Router
-Tailwind CSS
+*React JS
 
-## Desplegado en Vercel
-Link: 
+*Redux
+
+*Router
+
+*Tailwind CSS
